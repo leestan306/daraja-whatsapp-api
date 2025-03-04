@@ -3,12 +3,14 @@
 		"dev": "npx ts-node app.ts"
 	},
 	"dependencies": {
+		"@prisma/client": "6.4.1",
 		"@types/express": "^5.0.0",
 		"@types/node": "^22.13.8",
 		"axios": "^1.8.1",
 		"body-parser": "^1.20.3",
 		"dotenv": "^16.4.7",
 		"express": "^4.21.2",
+		"prisma": "^6.4.1",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.8.2"
 	},

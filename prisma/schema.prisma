@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// prisma/schema.prisma
+
+model Order {
+  id                String   @id @default(cuid())
+  phoneNumber       String // User's phone number
+  catalogId         String // Catalog ID from the order
+  text              String? // Optional text field
+  currency          String // Currency of the order
+  totalAmount       Float // Total amount of the order
+  status            String   @default("PENDING") // Order status (e.g., PENDING, PAID)
+  merchantRequestId String?  @unique // Merchant request ID from M-Pesa
+  checkoutRequestId String? // Checkout request ID from M-Pesa
+  resultDesc        String? // Result description from M-Pesa
+  amount            Float? // Amount received from M-Pesa
+  createdAt         DateTime @default(now()) // Timestamp when the order was created
+  updatedAt         DateTime @updatedAt // Timestamp when the order was last updated
+
+  // Relationships
+  items Item[] // One-to-many relationship with Item
+}
+
+model Item {
+  id                String @id @default(cuid())
+  orderId           String // Foreign key referencing Order.id
+  productRetailerId String // Product retailer ID
+  quantity          Int // Quantity of the product
+  itemPrice         Float // Price per item
+
+  // Relationships
+  order Order @relation(fields: [orderId], references: [id])
+}
