@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgress # Set your PostgreSQL username
+      POSTGRES_PASSWORD: password # Set your PostgreSQL password
+      POSTGRES_DB: kapu # Set the name of your database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: stanley@leestan.dev # Set your pgAdmin email
+      PGADMIN_DEFAULT_PASSWORD: password # Set your pgAdmin password
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
